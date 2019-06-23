@@ -25,10 +25,26 @@ router.put('/student/:id', function(req, res, next){
     });
 });
 
+// DELETE method request
 router.delete('/student/:id', function(req, res, next){
     Students.findByIdAndDelete({_id: req.params.id}).then(function(result){
         res.send(result);
     });
 });
+
+// Create Endpoint of authentication "register/signup, login, logout"______________________________
+// Register / Signup
+router.post('/signup', function(req, res, next){
+    res.send('Signup request');
+});
+
+router.post('/login/:username/:password', function(req, res, next){
+    res.send('Login request');
+});
+
+router.post('/logout', function(req, res, next){
+    res.send('Logout request');
+});
+
 
 module.exports = router;
