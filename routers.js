@@ -96,10 +96,4 @@ router.post('/login', async function(req, res){
     // res.send('Logged In.');
 });
 
-// Logout
-router.post('/logout', function(req, res, next){
-    res.send('Logout request');
-});
-
-
 module.exports = router;
