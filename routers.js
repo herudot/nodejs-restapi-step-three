@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Students = require('./models/students');
+const bcrypt = require('bcrypt');
 const User = require('./models/User');
 const {SignupValidation, LoginValidation} = require('./validation');
 
