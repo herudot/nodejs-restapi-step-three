@@ -45,8 +45,9 @@ const schema = {
 // Register / Signup
 router.post('/signup', async function(req, res){
     // Validate the values
-    const validation = Joi.validate(req.body, schema);
-    res.send(validation);
+    const {error} = Joi.validate(req.body, schema);
+    res.send(error.details[0].message);
+
     // const {name, email, password, date, body} = req.body;
     // const user = new User({
     //     name: name,
