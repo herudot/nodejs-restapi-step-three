@@ -4,6 +4,7 @@ const Students = require('./models/students');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
+const verify = require('./verifytoken');
 const {SignupValidation, LoginValidation} = require('./validation');
 
 // GET method request
