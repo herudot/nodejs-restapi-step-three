@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Students = require('./models/students');
 const User = require('./models/User');
+const Joi = require('@hapi/joi');
 
 // GET method request
 router.get('/students', function(req, res){
@@ -34,21 +35,31 @@ router.delete('/student/:id', function(req, res, next){
 });
 
 // Create Endpoint of authentication "register/signup, login, logout"______________________________
+// Create Validation
+const schema = {
+    name: Joi.string().min(6).required(),
+    email: Joi.string().min(6).required().email(),
+    password: Joi.string().min(6).required()
+};
+
 // Register / Signup
 router.post('/signup', async function(req, res){
-    const {name, email, password, date, body} = req.body;
-    const user = new User({
-        name: name,
-        email: email,
-        password: password
-    });
-    try{
-        const savedUser = await user.save();
-        res.send(savedUser);
-    }
-    catch(err){
-        res.status(400).send(err);
-    }
+    // Validate the values
+    const validation = Joi.validate(req.body, schema);
+    res.send(validation);
+    // const {name, email, password, date, body} = req.body;
+    // const user = new User({
+    //     name: name,
+    //     email: email,
+    //     password: password
+    // });
+    // try{
+    //     const savedUser = await user.save();
+    //     res.send(savedUser);
+    // }
+    // catch(err){
+    //     res.status(400).send(err);
+    // }
 });
 
 router.post('/login/:username/:password', function(req, res, next){
