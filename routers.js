@@ -46,7 +46,7 @@ router.post('/signup', async function(req, res){
     const{ error } = SignupValidation(req.body);
     if(error) return res.status(400).send(error.details[0].message);
 
-    // Checking if the user is already exist in the database
+    // Checking if the email is already exist in the database
     const emailExist = await User.findOne({email: email});
     if(emailExist) return res.status(400).send('Email already Exist !');
 
@@ -63,17 +63,34 @@ router.post('/signup', async function(req, res){
     });
     try{
         const savedUser = await user.save();
-        res.send(savedUser);
+        res.send({ user: user._id});
     }
     catch(err){
         res.status(400).send(err);
     }
 });
 
-router.post('/login/:username/:password', function(req, res, next){
-    res.send('Login request');
+// Login
+router.post('/login', async function(req, res){
+    // Create variable to shorting the code
+    const {name, email, password, date, body} = req.body;
+
+    // Validating the data before login
+    const { error } = LoginValidation(req.body);
+    if(error) return res.status(400).send(error.details[0].message);
+
+    // Checking if the email is already exist in the database
+    const user = await User.findOne({email: email});
+    if(!user) return res.status(400).send('email or password is wrong !');
+
+    // Checking if the password correct
+    const validPass = await bcrypt.compare(password, user.password);
+    if(!validPass) return res.status(400).send('password is invalid !');
+
+    res.send('Logged In.');
 });
 
+// Logout
 router.post('/logout', function(req, res, next){
     res.send('Logout request');
 });
